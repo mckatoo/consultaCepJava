@@ -16,3 +16,12 @@ txtBairro.setText(cep.getBairro());             \\ Mas pode ser usado de outras 
 txtCidade.setText(cep.getCidade());
 txtUF.setText(cep.getUF());
 ```
+## Descrição do projeto
+Pesquisa cep nas seguintes api's e nesta ordem:
+ 1. ViaCEP
+ 2. CepAberto
+ 3. Correios
+ 
+## Futuras implementações
+- Fazer consulta das api's de modo conconrrente.
+- Padronizar métodos e retornos.
