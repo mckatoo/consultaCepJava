@@ -15,7 +15,7 @@ import cep.SigepClienteException;
  */
 public class Correios {
 
-    private static EnderecoERP consultaCEP(java.lang.String cep) throws SigepClienteException, SQLException_Exception {
+    public static EnderecoERP consultaCepCorreios(java.lang.String cep) throws SigepClienteException, SQLException_Exception {
         cep.AtendeClienteService service = new cep.AtendeClienteService();
         cep.AtendeCliente port = service.getAtendeClientePort();
         return port.consultaCEP(cep);
