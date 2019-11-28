@@ -17,11 +17,12 @@ txtCidade.setText(cep.getCidade());
 txtUF.setText(cep.getUF());
 ```
 ## Descrição do projeto
-Pesquisa cep nas seguintes api's e nesta ordem:
+Pesquisa cep nas seguintes api's e de modo assíncrono:
  1. ViaCEP
  2. CepAberto
  3. Correios
+ 4. Widenet
+ 5. WebManiaBr
  
 ## Futuras implementações
-- Fazer consulta das api's de modo conconrrente.
 - Padronizar métodos e retornos.

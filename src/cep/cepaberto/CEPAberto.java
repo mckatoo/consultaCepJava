@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cep.CEPAberto;
+package cep.cepaberto;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,9 +17,9 @@ import org.json.JSONObject;
  *
  * @author mckatoo
  */
-public class Api {
+public class CEPAberto {
 
-    private String sendGet(String url) {
+    private static String sendGet(String url) {
         try {
             StringBuilder buffer = new StringBuilder();
             String inputLine;
@@ -48,7 +48,7 @@ public class Api {
     }
 
     public static JSONObject getCep(String cep) {
-        String json = new Api().sendGet("http://www.cepaberto.com/api/v3/cep?cep=" + cep);
+        String json = sendGet("http://www.cepaberto.com/api/v3/cep?cep=" + cep);
         return new JSONObject(json);
     }
 }

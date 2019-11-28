@@ -15,9 +15,7 @@ public class CEPBean {
     private String bairro;
     private String cidade;
     private String uf;
-
-    public CEPBean() {
-    }
+    private String api;
 
     public String getEndereco() {
         return endereco;
@@ -50,7 +48,13 @@ public class CEPBean {
     public void setUf(String uf) {
         this.uf = uf;
     }
-    
-    
+
+    public String getApi() {
+        return api;
+    }
+
+    public void setApi(String api) {
+        this.api = api;
+    }
     
 }
