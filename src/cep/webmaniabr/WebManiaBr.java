@@ -1,12 +1,12 @@
 /*
- * PARG Desenvolvimento de Sistemas
- * Pablo Alexander - pablo@parg.com.br
- * 
- * Obtem um CEP no ViaCEP
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package cep.viacep;
+package cep.webmaniabr;
 
 import cep.CEPBean;
+import cep.cepaberto.CEPAberto;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,17 +15,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Classe java para obter um CEP no ViaCEP
  *
- * @author Pablo Alexander da Rocha Gonçalves
+ * @author mckatoo
  */
-public class ViaCEP {
-
+public class WebManiaBr {
     private static String sendGet(String url) {
         try {
             StringBuilder buffer = new StringBuilder();
@@ -33,6 +30,7 @@ public class ViaCEP {
             URL obj = new URL(url);
             HttpURLConnection conn = (HttpURLConnection) obj.openConnection();
             conn.setRequestMethod("GET");
+            conn.setRequestProperty("User-Agent", "WebManiaBr");
             conn.setRequestProperty("Accept", "application/json");
             int responseCode = conn.getResponseCode();
             System.out.println("Response Code: " + responseCode);
@@ -53,24 +51,29 @@ public class ViaCEP {
     }
 
     private static JSONObject getCep(String cep) {
-        String json = sendGet("https://viacep.com.br/ws/" + cep + "/json/ ");
+        String urlBase = "https://webmaniabr.com/api/";
+        String app_key = "D7BxN8spEecIACVKQkuCmrIkhPryHYv8";
+        String app_secret = "X69rQC5CPBie3EYIvgLLgY9aUWeCUOG2OUNOs327b8VKqnjO";
+        String apiVersion = "1";
+        String json = sendGet(urlBase + apiVersion + "/cep/" + cep + "/?app_key=" + app_key + "&app_secret=" + app_secret);
         return new JSONObject(json);
     }
-
-    private static CEPBean consultaViaCep(String cep) throws JSONException {
+    
+    
+    private static CEPBean consultaWebManiaBr(String cep) throws JSONException {
         CEPBean cepBean = new CEPBean();
         JSONObject jsonCep = getCep(cep);
-        cepBean.setEndereco(jsonCep.getString("logradouro"));
+        cepBean.setEndereco(jsonCep.getString("endereco"));
         cepBean.setBairro(jsonCep.getString("bairro"));
-        cepBean.setCidade(jsonCep.getString("localidade"));
+        cepBean.setCidade(jsonCep.getString("cidade"));
         cepBean.setUf(jsonCep.getString("uf"));
-        cepBean.setApi("ViaCep");
+        cepBean.setApi("WebManiaBr");
         return cepBean;
     }
 
-    public static Future<CEPBean> consultaViaCepAsync(String cep) {
+    public static Future<CEPBean> consultaWebManiaBrAsync(String cep) {
         return CompletableFuture.supplyAsync(() -> {
-            return consultaViaCep(cep);
+            return consultaWebManiaBr(cep);
         });
     }
 }

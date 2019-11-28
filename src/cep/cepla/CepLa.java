@@ -1,10 +1,9 @@
 /*
- * PARG Desenvolvimento de Sistemas
- * Pablo Alexander - pablo@parg.com.br
- * 
- * Obtem um CEP no ViaCEP
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
-package cep.viacep;
+package cep.cepla;
 
 import cep.CEPBean;
 import java.io.BufferedReader;
@@ -15,17 +14,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Classe java para obter um CEP no ViaCEP
  *
- * @author Pablo Alexander da Rocha Gonçalves
+ * @author mckatoo
  */
-public class ViaCEP {
-
+public class CepLa {
     private static String sendGet(String url) {
         try {
             StringBuilder buffer = new StringBuilder();
@@ -53,24 +49,25 @@ public class ViaCEP {
     }
 
     private static JSONObject getCep(String cep) {
-        String json = sendGet("https://viacep.com.br/ws/" + cep + "/json/ ");
+        String json = sendGet("http://cep.la/" + cep);
         return new JSONObject(json);
     }
-
-    private static CEPBean consultaViaCep(String cep) throws JSONException {
+    
+    
+    private static CEPBean consultaCepLa(String cep) throws JSONException {
         CEPBean cepBean = new CEPBean();
         JSONObject jsonCep = getCep(cep);
         cepBean.setEndereco(jsonCep.getString("logradouro"));
         cepBean.setBairro(jsonCep.getString("bairro"));
-        cepBean.setCidade(jsonCep.getString("localidade"));
+        cepBean.setCidade(jsonCep.getString("cidade"));
         cepBean.setUf(jsonCep.getString("uf"));
-        cepBean.setApi("ViaCep");
+        cepBean.setApi("CepLa");
         return cepBean;
     }
 
-    public static Future<CEPBean> consultaViaCepAsync(String cep) {
+    public static Future<CEPBean> consultaCepLaAsync(String cep) {
         return CompletableFuture.supplyAsync(() -> {
-            return consultaViaCep(cep);
+            return consultaCepLa(cep);
         });
     }
 }
