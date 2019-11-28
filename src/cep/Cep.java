@@ -9,11 +9,8 @@ import cep.cepaberto.CEPAberto;
 import cep.cepla.CepLa;
 import cep.correios.Correios;
 import cep.viacep.ViaCEP;
-import cep.viacep.ViaCEPException;
 import cep.webmaniabr.WebManiaBr;
 import cep.widenet.Widenet;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -41,7 +38,7 @@ public class Cep {
         CEPBean cepBean = null;
         
         Future<CEPBean> futureCorreios = consultaCepCorreiosAsync(cep);
-        Future<CEPBean> futureViaCep = consultaViaCepAsync(cep);
+        Future<CEPBean> futureViaCep = ViaCEP.consultaViaCepAsync(cep);
         Future<CEPBean> futureCepAberto = consultaCepAbertoAsync(cep);
         Future<CEPBean> futureWidenet = consultaWidenetAsync(cep);
         Future<CEPBean> futureWebManiaBr = WebManiaBr.consultaWebManiaBrAsync(cep);
@@ -59,29 +56,6 @@ public class Cep {
         if (futureCepLa.isDone()) cepBean = futureCepLa.get(10, TimeUnit.SECONDS);
         
         return cepBean;
-    }
-
-    private static CEPBean consultaViaCep(String cep) throws ViaCEPException {
-        CEPBean cepBean = new CEPBean();
-        ViaCEP viaCep = new ViaCEP();
-        viaCep.buscar(cep);
-        cepBean.setEndereco(viaCep.getLogradouro());
-        cepBean.setBairro(viaCep.getBairro());
-        cepBean.setCidade(viaCep.getLocalidade());
-        cepBean.setUf(viaCep.getUf());
-        cepBean.setApi("ViaCep");
-        return cepBean;
-    }
-
-    private static Future<CEPBean> consultaViaCepAsync(String cep) {
-        return CompletableFuture.supplyAsync(() -> {
-            try {
-                return consultaViaCep(cep);
-            } catch (ViaCEPException ex) {
-                Logger.getLogger(Cep.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
-        });
     }
 
     private static CEPBean consultaCepAberto(String cep) throws JSONException {

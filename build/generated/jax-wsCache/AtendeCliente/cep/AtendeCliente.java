@@ -991,8 +991,8 @@ public interface AtendeCliente {
      * @return
      *     returns java.lang.String
      * @throws AutenticacaoException
-     * @throws ErroMontagemRelatorio_Exception
      * @throws SigepClienteException
+     * @throws ErroMontagemRelatorio_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
