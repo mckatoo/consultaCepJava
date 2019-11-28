@@ -5,6 +5,8 @@
  */
 package cep;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -44,8 +46,7 @@ public class CepTest {
      * Test of consultaCEP method, of class Cep.
      */
     @Test
-    public void testConsultaCEP() {
-        System.out.println("consultaCEP");
+    public void testConsultaCEP() throws InterruptedException, ExecutionException, TimeoutException {
         String cep = "13976110";
         
         expResult.setEndereco("Rua Doutor Miguel Couto");
@@ -54,11 +55,11 @@ public class CepTest {
         expResult.setUf("SP");
         
         CEPBean result = Cep.consultaCEP(cep);
+        System.out.println("API DE CEP MAIS RÁPIDA = " + result.getApi());
         assertEquals(expResult.getEndereco(), result.getEndereco());
         assertEquals(expResult.getBairro(), result.getBairro());
         assertEquals(expResult.getCidade(), result.getCidade());
         assertEquals(expResult.getUf(), result.getUf());
-        // TODO review the generated test code and remove the default call to fail.
     }
     
 }
