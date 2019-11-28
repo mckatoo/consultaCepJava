@@ -140,9 +140,9 @@ public interface AtendeCliente {
      * @param codMaoPropria
      * @return
      *     returns java.lang.String
+     * @throws Exception_Exception
      * @throws AutenticacaoException
      * @throws SigepClienteException
-     * @throws Exception_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -207,9 +207,9 @@ public interface AtendeCliente {
      * @param idPlp
      * @return
      *     returns java.lang.Boolean
+     * @throws Exception_Exception
      * @throws AutenticacaoException
      * @throws SigepClienteException
-     * @throws Exception_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -641,9 +641,9 @@ public interface AtendeCliente {
      * @param usuario
      * @return
      *     returns cep.ValePostal
+     * @throws Exception_Exception
      * @throws AutenticacaoException
      * @throws SigepClienteException
-     * @throws Exception_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
@@ -991,8 +991,8 @@ public interface AtendeCliente {
      * @return
      *     returns java.lang.String
      * @throws AutenticacaoException
-     * @throws SigepClienteException
      * @throws ErroMontagemRelatorio_Exception
+     * @throws SigepClienteException
      */
     @WebMethod
     @WebResult(targetNamespace = "")
