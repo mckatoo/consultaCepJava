@@ -5,6 +5,7 @@
  */
 package cep.widenet;
 
+import cep.CEPBean;
 import cep.cepaberto.CEPAberto;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +13,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -46,8 +50,25 @@ public class Widenet {
         }
     }
     
-    public static JSONObject getCep(String cep) {
+    private static JSONObject getCep(String cep) {
         String json = sendGet("http://apps.widenet.com.br/busca-cep/api/cep/" + cep + ".json");
         return new JSONObject(json);
+    }
+    
+    private static CEPBean consultaWidenet(String cep) throws JSONException {
+        CEPBean cepBean = new CEPBean();
+        JSONObject jsonCep = Widenet.getCep(cep);
+        cepBean.setEndereco(jsonCep.getString("address"));
+        cepBean.setBairro(jsonCep.getString("district"));
+        cepBean.setCidade(jsonCep.getString("city"));
+        cepBean.setUf(jsonCep.getString("state"));
+        cepBean.setApi("Widenet");
+        return cepBean;
+    }
+
+    public static Future<CEPBean> consultaWidenetAsync(String cep) {
+        return CompletableFuture.supplyAsync(() -> {
+            return consultaWidenet(cep);
+        });
     }
 }

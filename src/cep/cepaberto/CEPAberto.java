@@ -5,12 +5,16 @@
  */
 package cep.cepaberto;
 
+import cep.CEPBean;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -47,8 +51,28 @@ public class CEPAberto {
         }
     }
 
-    public static JSONObject getCep(String cep) {
+    private static JSONObject getCep(String cep) {
         String json = sendGet("http://www.cepaberto.com/api/v3/cep?cep=" + cep);
         return new JSONObject(json);
+    }
+    
+    
+    private static CEPBean consultaCepAberto(String cep) throws JSONException {
+        CEPBean cepBean = new CEPBean();
+        JSONObject jsonCep = CEPAberto.getCep(cep);
+        cepBean.setEndereco(jsonCep.getString("logradouro"));
+        cepBean.setBairro(jsonCep.getString("bairro"));
+        JSONObject cidade = jsonCep.getJSONObject("cidade");
+        cepBean.setCidade(cidade.getString("nome"));
+        JSONObject estado = jsonCep.getJSONObject("estado");
+        cepBean.setUf(estado.getString("sigla"));
+        cepBean.setApi("CepAberto");
+        return cepBean;
+    }
+
+    public static Future<CEPBean> consultaCepAbertoAsync(String cep) {
+        return CompletableFuture.supplyAsync(() -> {
+            return consultaCepAberto(cep);
+        });
     }
 }

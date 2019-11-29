@@ -44,6 +44,9 @@ public class CepTest {
 
     /**
      * Test of consultaCEP method, of class Cep.
+     * @throws java.lang.InterruptedException
+     * @throws java.util.concurrent.ExecutionException
+     * @throws java.util.concurrent.TimeoutException
      */
     @Test
     public void testConsultaCEP() throws InterruptedException, ExecutionException, TimeoutException {
