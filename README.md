@@ -20,21 +20,26 @@
 No Netbeans, clique com o botão direito do mouse sobre `Bibliotecas`/`Importar`/`Arquivo Jar`, e procure o arquivo baixado no link acima.
 
 ## Exemplo de uso:
+
+### Modo Síncrono
 ```java
-CEPBean cep = new CEPBean();                    \\ CEPBean pertence à biblioteca
-cep = Cep.consultaCEP(txtCEP.getText());        \\ Método consultaCEP usa como parametro uma String no formato 00000000
-txtEndereco.setText(cep.getEndereco() + ", ");  \\ Daqui pra baixo está preenchendo JTextViews como os atributos do objeto.
-txtBairro.setText(cep.getBairro());             \\ Mas pode ser usado de outras maneiras. Use sua imaginação. ;)
-txtCidade.setText(cep.getCidade());
-txtUF.setText(cep.getUF());
+CEPBean cepBean = Cep.consultaCEP("13973481");
+System.out.println("API DE CEP MAIS RÁPIDA NA CONSULTA SÍNCRONA = " + cepBean.getApi());
 ```
+
+### Modo Assíncrono
+```java
+CEPBean cepBean = Cep.consultaCEPasync("13973481").get(10, TimeUnit.SECONDS);
+System.out.println("API DE CEP MAIS RÁPIDA NA CONSULTA ASSÍNCRONA = " + cepBean.getApi());
+```
+
 ## Descrição do projeto
 Pesquisa cep nas seguintes api's e de modo assíncrono:
  1. ViaCEP
  2. CepAberto
- 3. Correios
- 4. Widenet
- 5. WebManiaBr
+ 3. Widenet
+ 4. WebManiaBr
+ 5. PostMon
  
 ## Futuras implementações
 - Padronizar métodos e retornos.

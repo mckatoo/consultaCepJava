@@ -6,6 +6,7 @@
 package cep;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -58,7 +59,24 @@ public class CepTest {
         expResult.setUf("SP");
         
         CEPBean result = Cep.consultaCEP(cep);
-        System.out.println("API DE CEP MAIS RÁPIDA = " + result.getApi());
+        System.out.println("API DE CEP MAIS RÁPIDA NA CONSULTA SÍNCRONA = " + result.getApi());
+        assertEquals(expResult.getEndereco(), result.getEndereco());
+        assertEquals(expResult.getBairro(), result.getBairro());
+        assertEquals(expResult.getCidade(), result.getCidade());
+        assertEquals(expResult.getUf(), result.getUf());
+    }
+    
+    @Test
+    public void testConsultaCEPasync() throws InterruptedException, ExecutionException, TimeoutException {
+        String cep = "13973481";
+        
+        expResult.setEndereco("Rua Santa Terezinha");
+        expResult.setBairro("Jardim Guarujá");
+        expResult.setCidade("Itapira");
+        expResult.setUf("SP");
+        
+        CEPBean result = Cep.consultaCEPasync(cep).get(10, TimeUnit.SECONDS);
+        System.out.println("API DE CEP MAIS RÁPIDA NA CONSULTA ASSÍNCRONA = " + result.getApi());
         assertEquals(expResult.getEndereco(), result.getEndereco());
         assertEquals(expResult.getBairro(), result.getBairro());
         assertEquals(expResult.getCidade(), result.getCidade());
